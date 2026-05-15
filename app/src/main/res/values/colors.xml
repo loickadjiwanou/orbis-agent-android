@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ── Brand ── -->
+    <color name="orbis_primary">#6366F1</color>
+    <color name="orbis_primary_dark">#4F46E5</color>
+    <color name="orbis_primary_light">#A5B4FC</color>
+    <color name="orbis_accent">#06B6D4</color>
+
+    <!-- ── Header / dark surface ── -->
+    <color name="color_header_start">#0F172A</color>
+    <color name="color_header_end">#1E3A5F</color>
+
+    <!-- ── Status ── -->
+    <color name="status_connected">#10B981</color>
+    <color name="status_connecting">#F59E0B</color>
+    <color name="status_disconnected">#EF4444</color>
+    <color name="status_chip_bg">#26FFFFFF</color>
+
+    <!-- ── Backgrounds ── -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#F8FAFC</color>
+    <color name="background_card">#FFFFFF</color>
+    <color name="color_card_stroke">#E2E8F0</color>
+    <color name="color_divider">#F1F5F9</color>
+    <color name="color_icon_battery_bg">#FFF7ED</color>
+    <color name="color_icon_battery_tint">#F59E0B</color>
+    <color name="color_icon_success_bg">#ECFDF5</color>
+
+    <!-- ── Text ── -->
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_hint">#CBD5E1</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_on_header">#FFFFFF</color>
+    <color name="text_on_header_dim">#94A3B8</color>
+
+    <!-- ── Material / compat ── -->
+    <color name="colorPrimary">#6366F1</color>
+    <color name="colorPrimaryDark">#0F172A</color>
+    <color name="colorAccent">#06B6D4</color>
+    <color name="notification_color">#6366F1</color>
+</resources>

@@ -1,0 +1,72 @@
+# ================================================================
+# Orbis Agent Android — .gitignore
+# ================================================================
+
+# --- Build outputs ---
+/build/
+app/build/
+*/build/
+
+# --- Gradle cache et wrapper binaire ---
+.gradle/
+gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# --- Android Studio ---
+*.iml
+.idea/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+capture/
+
+# --- Fichiers de configuration locale (secrets) ---
+local.properties
+keystore.properties
+*.keystore
+*.jks
+*.secrets
+
+# --- Fichiers APK / AAB / mapping ---
+*.apk
+*.aab
+*.ap_
+*.dex
+app/release/
+app/debug/
+
+# --- Fichiers générés par le compilateur ---
+gen/
+out/
+bin/
+
+# --- Logs ---
+*.log
+*.hprof
+
+# --- Fichiers système OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Fichiers de couverture et rapports de test ---
+reports/
+coverage/
+
+# --- Profiling Android ---
+*.trace
+
+# --- NDK ---
+obj/
+libs/*.so
+
+# --- Room schemas exportés (optionnel — à committer si utilisé) ---
+# app/schemas/

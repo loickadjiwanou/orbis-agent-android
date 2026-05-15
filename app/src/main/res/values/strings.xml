@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Orbis Agent</string>
+    <string name="title_onboarding">Setup Orbis Agent</string>
+    <string name="title_battery_optimization">Battery Optimization</string>
+    <string name="title_main">Orbis Agent</string>
+
+    <!-- Status labels -->
+    <string name="label_connection_status">Connection Status</string>
+    <string name="label_device_id">Device ID</string>
+    <string name="label_broker_url">Broker URL</string>
+    <string name="label_last_heartbeat">Last Heartbeat</string>
+
+    <!-- Connection states -->
+    <string name="status_connected">Connected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_not_configured">Not configured</string>
+
+    <!-- Onboarding form -->
+    <string name="hint_broker_url">Broker URL (e.g. tcp://192.168.1.100:1883)</string>
+    <string name="hint_register_secret">Register secret</string>
+    <string name="button_configure">Configure Device</string>
+    <string name="onboarding_title">Configure Orbis Agent</string>
+    <string name="onboarding_description">Enter your Orbis server details to register this device.</string>
+
+    <!-- Battery optimization -->
+    <string name="battery_optimization_title">Battery Optimization</string>
+    <string name="battery_optimization_description">Disable battery optimization to keep Orbis Agent running reliably in the background.</string>
+    <string name="button_open_battery_settings">Disable Battery Optimization</string>
+    <string name="button_open_app_settings">Open App Settings</string>
+
+    <!-- Main activity buttons -->
+    <string name="button_battery_optimization">Battery Optimization</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_name">Orbis Agent Service</string>
+    <string name="notification_channel_description">Persistent notification for the Orbis monitoring agent</string>
+    <string name="notification_title">Orbis Agent</string>
+    <string name="notification_text_online">Online — monitoring active</string>
+    <string name="notification_text_offline">Offline — reconnecting</string>
+
+    <!-- Error messages -->
+    <string name="error_broker_url_required">Broker URL is required</string>
+    <string name="error_register_secret_required">Register secret is required</string>
+    <string name="error_registration_failed">Registration failed</string>
+    <string name="success_registration">Device registered successfully</string>
+</resources>

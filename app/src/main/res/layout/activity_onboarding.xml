@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_secondary"
+    tools:context=".ui.OnboardingActivity">
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!--  HEADER — branded top section                         -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_header"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="@dimen/header_padding_top"
+        android:paddingBottom="32dp"
+        android:gravity="center_horizontal">
+
+        <!-- Shield logo -->
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:src="@drawable/ic_orbis_notification"
+            android:contentDescription="Orbis logo"
+            android:layout_marginBottom="14dp"
+            app:tint="@color/text_on_header" />
+
+        <!-- App name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ORBIS AGENT"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:textColor="@color/text_on_header"
+            android:layout_marginBottom="6dp" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect this device to your Orbis server"
+            android:textSize="13sp"
+            android:textColor="@color/text_on_header_dim"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!--  FORM CONTENT                                         -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:paddingTop="28dp">
+
+            <!-- Form card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/color_card_stroke"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/background_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/card_padding">
+
+                    <!-- Section label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SERVER CONFIGURATION"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_secondary"
+                        android:letterSpacing="0.12"
+                        android:layout_marginBottom="18dp" />
+
+                    <!-- Broker URL -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Broker URL"
+                        style="@style/OrbisTextInput"
+                        android:layout_marginBottom="14dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editBrokerUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:fontFamily="monospace"
+                            android:textSize="14sp"
+                            android:text="tcp://192.168.1.100:1883" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Register secret -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Register Secret"
+                        style="@style/OrbisTextInput"
+                        app:passwordToggleEnabled="true"
+                        android:layout_marginBottom="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editRegisterSecret"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Progress indicator -->
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:trackCornerRadius="4dp"
+                app:indicatorColor="@color/orbis_primary" />
+
+            <!-- Status text -->
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="" />
+
+            <!-- Configure button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonConfigure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect Device"
+                style="@style/OrbisButton" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

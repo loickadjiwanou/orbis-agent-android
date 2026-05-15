@@ -1,0 +1,142 @@
+name: Build Agent Android
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------------------------------------------------
+      # 1. Checkout
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # -----------------------------------------------------------------------
+      # 2. JDK
+      # -----------------------------------------------------------------------
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # -----------------------------------------------------------------------
+      # 3. Gradle cache
+      # -----------------------------------------------------------------------
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      # -----------------------------------------------------------------------
+      # 4. Signing keystore
+      # Secrets required (set in GitHub repo → Settings → Secrets → Actions):
+      #   RELEASE_KEYSTORE  — base64-encoded .jks / .keystore file
+      #   KEYSTORE_PASSWORD — store password
+      #   KEY_ALIAS         — key alias inside the keystore
+      #   KEY_PASSWORD      — key password
+      #
+      # Generate once locally:
+      #   keytool -genkey -v -keystore release.keystore -alias orbis \
+      #     -keyalg RSA -keysize 4096 -validity 10000
+      #   base64 release.keystore | gh secret set RELEASE_KEYSTORE
+      # -----------------------------------------------------------------------
+      - name: Decode release keystore
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+        run: |
+          echo "$RELEASE_KEYSTORE" | base64 --decode > app/release.keystore
+
+      # -----------------------------------------------------------------------
+      # 5. Build
+      # -----------------------------------------------------------------------
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build release APK
+        env:
+          KEYSTORE_PATH: ${{ github.workspace }}/app/release.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon
+
+      # -----------------------------------------------------------------------
+      # 6. SHA-256 checksum (required by agent_update OTA payload)
+      # -----------------------------------------------------------------------
+      - name: Compute SHA-256
+        id: sha256
+        run: |
+          APK=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          echo "apk_path=$APK" >> $GITHUB_OUTPUT
+          HASH=$(sha256sum "$APK" | awk '{print $1}')
+          echo "$HASH" > apk.sha256
+          echo "sha256=$HASH" >> $GITHUB_OUTPUT
+
+      # -----------------------------------------------------------------------
+      # 7. Upload artifact
+      # -----------------------------------------------------------------------
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: orbis-orbis-agent-android
+          path: |
+            ${{ steps.sha256.outputs.apk_path }}
+            apk.sha256
+          retention-days: 30
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # Release: attach APK to GitHub Release when a tag is pushed
+  # ---------------------------------------------------------------------------
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: orbis-orbis-agent-android
+          path: dist/
+
+      - name: Create release and upload APK
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+          body: |
+            ## Orbis Android Agent
+
+            **SHA-256 :** voir `apk.sha256` joint à cette release.
+
+            Ce hash est requis dans le payload `agent_update` pour déclencher une mise à jour OTA :
+            ```json
+            {
+              "type": "agent_update",
+              "payload": {
+                "url": "https://github.com/.../releases/download/vX.Y.Z/orbis-agent-release.apk",
+                "sha256": "<valeur dans apk.sha256>",
+                "version": "X.Y.Z"
+              }
+            }
+            ```
+          generate_release_notes: true
